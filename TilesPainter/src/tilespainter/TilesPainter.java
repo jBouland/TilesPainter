@@ -6,6 +6,8 @@
 
 package tilespainter;
 
+import tilespainter.View.MainWindow;
+
 /**
  *
  * @author Joris
@@ -16,7 +18,8 @@ public class TilesPainter {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        MainWindow f = new MainWindow();
+        f.setVisible(true);
     }
     
 }
