@@ -23,6 +23,7 @@ public class MainWindow extends JFrame implements ActionListener {
     JMenu menu;
     JMenuItem menuExport;
     JMenuBar bar;
+    TilesListPanel tilesListPanel;
 
     public MainWindow() {
         setTitle("Tiles Painter");
@@ -33,6 +34,11 @@ public class MainWindow extends JFrame implements ActionListener {
         
         initMenu();
         this.setJMenuBar(bar);
+        
+        tilesListPanel = new TilesListPanel();
+        this.add(tilesListPanel);
+        
+        this.pack();
     }
     
     private void initMenu(){

@@ -25,6 +25,9 @@ public class ImageListCellRenderer implements ListCellRenderer {
              Component component = (Component) e;
              component.setForeground(Color.white);
              component.setBackground(bln ? UIManager.getColor("Table.FocusCellForeground") : Color.white);
+            if(bln){
+                component.setBackground(new Color(180,220,240));
+            }
              return component;
         }else{
             return new JLabel("??");

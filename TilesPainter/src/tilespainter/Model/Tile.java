@@ -6,10 +6,26 @@
 
 package tilespainter.Model;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
  * @author Joris
  */
 public class Tile {
-    
+   private BufferedImage pic;
+   private int width;
+   private int height;
+
+    public Tile(BufferedImage pic) {
+        this.pic = pic;
+        width = 32;
+        height = 32;
+    }
+
+    public BufferedImage getPic() {
+        return pic;
+    }
+   
+   
 }
