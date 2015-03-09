@@ -21,6 +21,7 @@ public class Tile {
         this.pic = pic;
         width = 32;
         height = 32;
+        //do nothing;
     }
 
     public BufferedImage getPic() {
