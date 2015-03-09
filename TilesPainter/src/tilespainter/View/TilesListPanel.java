@@ -5,78 +5,87 @@
  */
 package tilespainter.View;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import tilespainter.Model.ImageListCellRenderer;
+import tilespainter.Model.TileSet;
 
 /**
  *
  * @author Joris
  */
-public class TilesListPanel extends JPanel implements ActionListener {
+public class TilesListPanel extends JPanel {
 
     private JList listTiles;
+    private TileSet ts;
+    private int selectedTile;
+    private JButton editor;
 
-    public TilesListPanel() {
+    public TilesListPanel(TileSet ts) {
+        selectedTile = 0;
+        this.ts = ts;
         this.display();
         this.loadPictures();
+        this.setPreferredSize(this.getPreferredSize());
         this.setLayout(new GridBagLayout());
+        listTiles.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent lse) {
+                selectedTile = listTiles.getSelectedIndex();
+            }
+        });
+    }
+
+    public int getSelectedTile() {
+        return selectedTile;
     }
 
     private void display() {
+
+        editor = new JButton("Editor");
+
         listTiles = new JList();
         listTiles.setCellRenderer(new ImageListCellRenderer());
         JScrollPane scrollPane = new JScrollPane(listTiles);
-        scrollPane.setPreferredSize(new Dimension(300, 600));
 
-        GridBagConstraints cont = new GridBagConstraints();
-        cont.gridx = 0;
-        cont.gridy = 0;
-        this.add(scrollPane, cont);
+
+        this.add(editor, BorderLayout.NORTH);
+        this.add(scrollPane, BorderLayout.SOUTH);
+
         listTiles.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
     }
 
     private void loadPictures() {
-        Icon testIcon = new ImageIcon("test1.png");
-        Icon testIcon1 = new ImageIcon("test2.png");
-        Icon testIcon2 = new ImageIcon("test5.png");
 
-        JLabel text1 = new JLabel("Image 1", testIcon, JLabel.LEFT);
-        JLabel text2 = new JLabel("Image 2", testIcon1, JLabel.LEFT);
-        JLabel text3 = new JLabel("Image 3", testIcon2, JLabel.LEFT);
+        JPanel[] panels = new JPanel[ts.getSize()];
 
-        JPanel IconPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JPanel IconPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JPanel IconPanel3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        
-        IconPanel.add(text1);
-        IconPanel2.add(text2);
-        IconPanel3.add(text3);
-        
-        Object[] panels = {IconPanel, IconPanel2, IconPanel3};
+        for (int i = 0; i < ts.getSize(); i++) {
+
+            panels[i] = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            panels[i].add(new JLabel("Image " + (i + 1), new ImageIcon(ts.getTile(i)), JLabel.LEFT));
+        }
+
         listTiles.setListData(panels);
 
     }
 
     @Override
-    public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Dimension getPreferredSize() {
-        return new Dimension(180, 200);
+        return new Dimension(180, 400);
     }
 
 }

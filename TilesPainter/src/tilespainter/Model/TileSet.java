@@ -16,7 +16,8 @@ import javax.imageio.ImageIO;
  */
 public class TileSet {
 
-    Tile[] tileTab;
+    private Tile[] tileTab;
+    private int size;
 
     public TileSet() throws IOException {
 
@@ -24,7 +25,8 @@ public class TileSet {
         final int height = 32;
         final int rows = 16;
         final int cols = 16;
-        tileTab = new Tile[rows * cols];
+        size = rows * cols;
+        tileTab = new Tile[size];
 
         BufferedImage bigImg = ImageIO.read(new File("tilesetMario.png"));
         for (int i = 0; i < rows; i++) {
@@ -38,6 +40,18 @@ public class TileSet {
             }
         }
 
+    }
+
+    public int getSize() {
+        return size;
+    }
+    
+    public BufferedImage getTile(int i){
+        if(i<size){
+            return tileTab[i].getPic();
+        }else{
+            return null;
+        }
     }
 
 }
