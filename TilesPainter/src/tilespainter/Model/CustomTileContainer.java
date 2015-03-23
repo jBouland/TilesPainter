@@ -36,8 +36,7 @@ public class CustomTileContainer extends Observable
        {
            super.paintComponent(g);      
            g.drawImage(_BufferedImage, 0, 0, null);
-           
-           //System.out.println(_BufferedImage.getRGB(0,0));
+    
        }        
     }
     

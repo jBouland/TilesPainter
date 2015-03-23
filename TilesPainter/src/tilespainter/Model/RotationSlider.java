@@ -8,6 +8,7 @@ package tilespainter.Model;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Observable;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,46 +21,58 @@ import javax.swing.event.ChangeListener;
  *
  * @author Luxio Crimson
  */
-public class RotationSlider extends JPanel implements ChangeListener
+public class RotationSlider extends Observable implements ChangeListener
 {
     private JSlider _JSlider;
     private JLabel _Degree;
+    private JPanel _JPanel;
+    private int _PrevValue;
     
     public RotationSlider()
     {        
-        this.setSize(new Dimension(200, 200));             
+        _JPanel = new JPanel();
+        _JPanel.setSize(new Dimension(200, 200));             
         _JSlider = new JSlider(-180, 180, 0);
-        _Degree = new JLabel();
+        _Degree = new JLabel();        
         _JSlider.addChangeListener(this);
         PlaceConstraints();
-        this.setVisible(true);      
+        _JPanel.setVisible(true);      
     }
     
     private void PlaceConstraints()
     {
-        this.setLayout(new GridBagLayout());
+        _JPanel.setLayout(new GridBagLayout());
         
         GridBagConstraints _GBConstr = new GridBagConstraints();    
         
         _GBConstr.gridx = 0;
         _GBConstr.gridy = 0;
-        this.add(_JSlider, _GBConstr);
+        _JPanel.add(_JSlider, _GBConstr);
         
-       _Degree.setText(Integer.toString(_JSlider.getValue()));
+       _Degree.setText(Integer.toString(_JSlider.getValue()) + "°");
+       _PrevValue = Integer.parseInt(_Degree.getText().replace("°", ""));
         
         _GBConstr.gridx = 1 ;
         _GBConstr.gridy = 0;
-        this.add(_Degree, _GBConstr);
+        _JPanel.add(_Degree, _GBConstr);
     }
     
     public int getRotationDegree()
     {
-        return _JSlider.getValue();
+        return (_JSlider.getValue() - _PrevValue);
+    }
+    
+    public JPanel getPanelContainer()
+    {
+        return _JPanel;   
     }
 
     @Override
     public void stateChanged(ChangeEvent e)
     {
-       _Degree.setText(Integer.toString(_JSlider.getValue()));
+       _PrevValue = Integer.parseInt(_Degree.getText().replace("°", ""));
+       _Degree.setText(Integer.toString(_JSlider.getValue()) + "°");
+       this.setChanged();
+       this.notifyObservers();
     }
 }

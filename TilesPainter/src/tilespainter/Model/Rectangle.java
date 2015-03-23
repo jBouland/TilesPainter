@@ -37,7 +37,7 @@ public class Rectangle extends GeometricalTile
     @Override
     public void PaintTile(Color _Color)
     {
-        _Graphics2D.setPaint(_Color);
+        _Graphics2D.setPaint(_Color);   
         _Graphics2D.fill(_Rectangle);
     }
     
@@ -47,4 +47,10 @@ public class Rectangle extends GeometricalTile
         _Graphics2D.setPaint(Color.decode(_Hex));
         _Graphics2D.fill(_Rectangle);
     }    
+
+    @Override
+    public void Rotate(int _Degree)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

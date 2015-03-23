@@ -7,11 +7,13 @@ package tilespainter.Model;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -24,7 +26,7 @@ import javax.swing.event.ChangeListener;
  *
  * @author Luxio Crimson
  */
-public class ColourSlider extends JPanel implements ChangeListener, ActionListener
+public class ColourSlider extends Observable implements ChangeListener, ActionListener
 {
 
     private JSlider _RSlider;
@@ -37,13 +39,14 @@ public class ColourSlider extends JPanel implements ChangeListener, ActionListen
     private JLabel _Red;   
     private JLabel _Green;
     private JLabel _Blue;
-    private Observable _Obs;
+    private JPanel _PanelContainer;
     
+    
+ 
     
     public ColourSlider()
     {        
-        _Obs = new Observable();
-        this.setSize(new Dimension(600, 600));             
+        _PanelContainer = new JPanel();
         _RSlider = new JSlider(0, 255, 0);
         _BSlider = new JSlider(0, 255, 0);
         _GSlider = new JSlider(0, 255, 0);
@@ -65,56 +68,56 @@ public class ColourSlider extends JPanel implements ChangeListener, ActionListen
         _Blue.setForeground(Color.blue);
         
         PlaceConstraints();
-        this.setVisible(true);      
+           
     }
     
     private void PlaceConstraints()
     {
-        this.setLayout(new GridBagLayout());
+        _PanelContainer.setLayout(new GridBagLayout());
         
         GridBagConstraints _GBConstr = new GridBagConstraints();    
         
         _GBConstr.gridx = 0;
         _GBConstr.gridy = 0;
-        this.add(_Red, _GBConstr);
+        _PanelContainer.add(_Red, _GBConstr);
         
         _GBConstr.gridx = 1;
         _GBConstr.gridy = 0;
-        this.add(_RSlider, _GBConstr);
+        _PanelContainer.add(_RSlider, _GBConstr);
         
         _GBConstr.gridx = 1;
         _GBConstr.gridy = 1;
-        this.add(_RValue, _GBConstr);
+        _PanelContainer.add(_RValue, _GBConstr);
         
         _GBConstr.gridx = 0;
         _GBConstr.gridy = 2;
-        this.add(_Green, _GBConstr);
+        _PanelContainer.add(_Green, _GBConstr);
         
         _GBConstr.gridx = 1;
         _GBConstr.gridy = 2;
-        this.add(_GSlider, _GBConstr);
+        _PanelContainer.add(_GSlider, _GBConstr);
         
         _GBConstr.gridx = 1;
         _GBConstr.gridy = 3;
-        this.add(_GValue, _GBConstr);
+        _PanelContainer.add(_GValue, _GBConstr);
         
         _GBConstr.gridx = 0;
         _GBConstr.gridy = 4;
-        this.add(_Blue, _GBConstr);
+        _PanelContainer.add(_Blue, _GBConstr);
         
         _GBConstr.gridx = 1;
         _GBConstr.gridy = 4;
-        this.add(_BSlider, _GBConstr);
+        _PanelContainer.add(_BSlider, _GBConstr);
         
         _GBConstr.gridx = 1;
         _GBConstr.gridy = 5;
-        this.add(_BValue, _GBConstr);
+        _PanelContainer.add(_BValue, _GBConstr);
         
         _Hex.setText(RGBtoHex(_RSlider.getValue(), _GSlider.getValue(), _BSlider.getValue()));
         
         _GBConstr.gridx = 2 ;
         _GBConstr.gridy = 3;
-        this.add(_Hex, _GBConstr);
+        _PanelContainer.add(_Hex, _GBConstr);
     }
     
     private String RGBtoHex(int R, int G, int B)
@@ -140,6 +143,13 @@ public class ColourSlider extends JPanel implements ChangeListener, ActionListen
         return _Color;       
     }
 
+    public JPanel getPanelContainer()
+    {
+        return _PanelContainer;
+    }
+    
+
+
     @Override
     public void stateChanged(ChangeEvent e)
     {
@@ -147,7 +157,9 @@ public class ColourSlider extends JPanel implements ChangeListener, ActionListen
        _RValue.setText(Integer.toString(_RSlider.getValue()));
        _GValue.setText(Integer.toString(_GSlider.getValue()));
        _BValue.setText(Integer.toString(_BSlider.getValue()));
-       //_Obs.notifyObservers();
+       this.setChanged();
+       this.notifyObservers();
+       
     }
 
     @Override

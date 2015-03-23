@@ -34,17 +34,19 @@ public abstract class GeometricalTile
 
     public BufferedImage getBufferedImage() 
     {
+        
+        this._Graphics2D = this._BufferedImage.createGraphics();        
         return this._BufferedImage;
     }
     
-    public void Rotate(int _Degree)
-    {
-        AffineTransform _AFTrans = new AffineTransform();
-        _AFTrans.rotate(Math.toRadians(_Degree), _BufferedImage.getWidth() / 2, _BufferedImage.getHeight() / 2);
-
-        AffineTransformOp _AFTransOP= new AffineTransformOp(_AFTrans, AffineTransformOp.TYPE_BILINEAR);
-        _BufferedImage = _AFTransOP.filter(_BufferedImage, null);
-    }
+    public abstract void Rotate(int _Degree);
+//    {
+//        AffineTransform _AFTrans = new AffineTransform();
+//        _AFTrans.rotate(Math.toRadians(_Degree), _BufferedImage.getWidth() / 2, _BufferedImage.getHeight() / 2);
+//        
+//        AffineTransformOp _AFTransOP= new AffineTransformOp(_AFTrans, AffineTransformOp.TYPE_BILINEAR);
+//        _BufferedImage = _AFTransOP.filter(_BufferedImage, null);
+//    }
     
     public abstract void DrawTile();
     public abstract void PaintTile(Color _Color);

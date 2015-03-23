@@ -46,4 +46,10 @@ public class Circle extends GeometricalTile
         _Graphics2D.setPaint(Color.decode(_Hex));
         _Graphics2D.fill(_Circle);
     }
+
+    @Override
+    public void Rotate(int _Degree)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
